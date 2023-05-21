@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.sidewalabg {
+	--bg-opacity: 1;
+	background-color: rgba(0, 8, 193, var(--bg-opacity));
+}
+.customHoer {
+	background: rgba(0, 8, 193, 0.6) !important;
+}
+.customHoer:hover {
+	background: rgba(0, 8, 193, 1) !important;
+}
+.customiconColor {
+	color: rgba(0, 8, 193, 0.6) !important;
+}
+.customiconColor:hover {
+	color: rgba(0, 8, 193, 1) !important;
+}
+.customBorder {
+	border: 1px solid rgba(0, 8, 193, 0.6) !important;
+	border-radius: 3px;
+}
+.customBorder:hover {
+	border: 1px solid rgba(0, 8, 193, 1) !important;
+}
