@@ -15,6 +15,16 @@ const routes = [
 		icon: "TablesIcon",
 		name: "Posts",
 	},
+	{
+		path: "/app/adsplan",
+		icon: "CardsIcon",
+		name: "Ad Plans",
+	},
+	{
+		path: "/app/adsManage",
+		icon: "BellIcon",
+		name: "Ads",
+	},
 ];
 
 export default routes;

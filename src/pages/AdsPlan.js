@@ -13,13 +13,13 @@ import {
 import { TrashIcon } from "../icons";
 import { deltdata, postData } from "../Database/Database";
 import { useDispatch, useSelector } from "react-redux";
-import { setCources } from "../store/projectSlice";
+import { setAdsplan } from "../store/projectSlice";
 
-function Forms() {
+const AdsPlan = () => {
 	const dispatch = useDispatch();
-	const { cources } = useSelector((state) => state.project);
+	const { adsplan } = useSelector((state) => state.project);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [frmvalue, setfrmvalue] = useState({ title: "", link: "" });
+	const [frmvalue, setfrmvalue] = useState({ price: "", days: "" });
 	function openModal() {
 		setIsModalOpen(true);
 	}
@@ -29,15 +29,31 @@ function Forms() {
 	}
 	const onSubmitfun = async (e) => {
 		e.preventDefault();
-		const result = await postData({ ...frmvalue }, "tutorials");
+		const result = await postData(
+			{ price: parseInt(frmvalue.price), days: parseInt(frmvalue.days) },
+			"adsplan"
+		);
 		if (result?.data) {
 			alert("Course created");
 			dispatch(
-				setCources({
-					cources:
-						cources?.length > 0
-							? [...cources, { id: result?.data, ...frmvalue }]
-							: [{ id: result?.data, ...frmvalue }],
+				setAdsplan({
+					adsplan:
+						adsplan?.length > 0
+							? [
+									...adsplan,
+									{
+										id: result?.data,
+										price: parseInt(frmvalue.price),
+										days: parseInt(frmvalue.days),
+									},
+							  ]
+							: [
+									{
+										id: result?.data,
+										price: parseInt(frmvalue.price),
+										days: parseInt(frmvalue.days),
+									},
+							  ],
 				})
 			);
 			closeModal();
@@ -47,10 +63,10 @@ function Forms() {
 	};
 	const deltdatafun = async (id) => {
 		try {
-			await deltdata("tutorials", id).then(() => {
+			await deltdata("adsplan", id).then(() => {
 				alert("document deleted");
 				dispatch(
-					setCources({ cources: cources.filter((dat) => dat.id !== id) })
+					setAdsplan({ adsplan: adsplan.filter((dat) => dat.id !== id) })
 				);
 			});
 		} catch (error) {
@@ -66,9 +82,9 @@ function Forms() {
 					justifyContent: "space-between",
 					flexDirection: "row",
 				}}>
-				<PageTitle>Cources</PageTitle>
+				<PageTitle>Ads Plan</PageTitle>
 				<Button className='customHoer' onClick={openModal}>
-					Add Cource
+					Add Plans
 				</Button>
 			</div>
 
@@ -78,28 +94,28 @@ function Forms() {
 						onSubmit={onSubmitfun}
 						className='px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800'>
 						<Label>
-							<span>Title</span>
+							<span>Days</span>
 							<Input
-								type='text'
+								type='number'
 								className='mt-1'
-								placeholder='Cource title'
-								value={frmvalue?.title}
+								placeholder='0'
+								value={frmvalue?.days}
 								required
 								onChange={(e) =>
-									setfrmvalue({ ...frmvalue, title: e.target.value })
+									setfrmvalue({ ...frmvalue, days: e.target.value })
 								}
 							/>
 						</Label>
 						<Label style={{ margin: "15px 0px" }}>
-							<span>Video Link</span>
+							<span>Price</span>
 							<Input
-								type='url'
+								type='number'
 								className='mt-1'
-								placeholder='https://something.com'
-								value={frmvalue?.link}
+								placeholder='$'
+								value={frmvalue?.price}
 								required
 								onChange={(e) =>
-									setfrmvalue({ ...frmvalue, link: e.target.value })
+									setfrmvalue({ ...frmvalue, price: e.target.value })
 								}
 							/>
 						</Label>
@@ -113,25 +129,25 @@ function Forms() {
 				<Table>
 					<TableHeader>
 						<tr>
-							<TableCell>Course Id</TableCell>
-							<TableCell>Name</TableCell>
-							<TableCell>Video Link</TableCell>
+							<TableCell>Plan Id</TableCell>
+							<TableCell>Validity Days</TableCell>
+							<TableCell>Price</TableCell>
 							<TableCell>Actions</TableCell>
 						</tr>
 					</TableHeader>
 					<TableBody>
-						{cources?.length > 0 &&
-							cources?.map((dat, index) => (
+						{adsplan?.length > 0 &&
+							adsplan?.map((dat, index) => (
 								<TableRow key={index}>
 									<TableCell>
 										<span className='text-sm'>{dat?.id}</span>
 									</TableCell>
 
 									<TableCell>
-										<span className='text-sm'>{dat?.title}</span>
+										<span className='text-sm'>{dat?.days}</span>
 									</TableCell>
 									<TableCell>
-										<span className='text-sm'>{dat?.link}</span>
+										<span className='text-sm'>{dat?.price}</span>
 									</TableCell>
 
 									<TableCell>
@@ -150,6 +166,6 @@ function Forms() {
 			</TableContainer>
 		</>
 	);
-}
+};
 
-export default Forms;
+export default AdsPlan;

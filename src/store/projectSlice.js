@@ -4,6 +4,8 @@ const initialState = {
 	users: [],
 	cources: [],
 	offers: [],
+	adsplan: [],
+	ads: [],
 };
 
 export const projectSlice = createSlice({
@@ -31,9 +33,24 @@ export const projectSlice = createSlice({
 				state.offers = action.payload.offers;
 			}
 		},
+		setAdsplan: (state, action) => {
+			if (action.payload.adsplan === null) {
+				state.adsplan = [];
+			} else {
+				state.adsplan = action.payload.adsplan;
+			}
+		},
+		setAds: (state, action) => {
+			if (action.payload.ads === null) {
+				state.ads = [];
+			} else {
+				state.ads = action.payload.ads;
+			}
+		},
 	},
 });
 
-export const { setUsers, setCources, setOffers } = projectSlice.actions;
+export const { setUsers, setCources, setOffers, setAdsplan, setAds } =
+	projectSlice.actions;
 
 export default projectSlice.reducer;

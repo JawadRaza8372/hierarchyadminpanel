@@ -9,7 +9,13 @@ import AccessibleNavigationAnnouncer from "./components/AccessibleNavigationAnno
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./store/authSlice";
 import { getData } from "./Database/Database";
-import { setCources, setOffers, setUsers } from "./store/projectSlice";
+import {
+	setAds,
+	setAdsplan,
+	setCources,
+	setOffers,
+	setUsers,
+} from "./store/projectSlice";
 
 const LayoutNew = lazy(() => import("./containers/LayoutNew"));
 const Login = lazy(() => import("./pages/Login"));
@@ -30,6 +36,9 @@ function App() {
 				const offers = await getData("Offers");
 				const users = await getData("User");
 				const cources = await getData("tutorials");
+				const adsplan = await getData("adsplan");
+				const ads = await getData("ads");
+
 				if (offers) {
 					let newoffers = offers.map((dat) => {
 						return {
@@ -44,6 +53,12 @@ function App() {
 				}
 				if (cources) {
 					dispatch(setCources({ cources: cources }));
+				}
+				if (adsplan) {
+					dispatch(setAdsplan({ adsplan: adsplan }));
+				}
+				if (ads) {
+					dispatch(setAds({ ads: ads }));
 				}
 			}
 		};
